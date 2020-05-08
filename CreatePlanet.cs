@@ -8,11 +8,6 @@ public class CreatePlanet : MonoBehaviour
     public GameObject planet;
     public InputField input_mass;
     public InputField input_speed;
-    public InputField input_spin;
-
-
-    public Slider slider;
-
 
     public GameObject params_folder;
     public Text Name;
@@ -33,10 +28,6 @@ public class CreatePlanet : MonoBehaviour
         {
             Gravity.pause = !Gravity.pause;
         }
-        if (slider.value != Planet.slow / 2)
-        {
-            Planet.slow = slider.value * 2;
-        }
         if(GetSelectedPlanet() != null && timer > 1)
         {
             params_folder.SetActive(true);
@@ -45,7 +36,7 @@ public class CreatePlanet : MonoBehaviour
             Speed.text = "SPEED: " + GetSelectedPlanet().Speed * 100;
             timer = 0;
         }
-        if(Follow.isOn)
+        if(Follow.isOn && GetSelectedPlanet() != null)
         {
             Camera.main.transform.position = new Vector3(GetSelectedPlanet().Game_obj.transform.position.x,  
                                                         Camera.main.transform.position.y, 
@@ -59,7 +50,6 @@ public class CreatePlanet : MonoBehaviour
     {
         Gravity.planets.Add(new Planet(int.Parse(input_mass.text), 
                                        int.Parse(input_speed.text), 
-                                       int.Parse(input_spin.text), 
                                        Instantiate(planet, 
                                                    new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z),
                                                    new Quaternion())));

@@ -18,11 +18,7 @@ public class PlanetMove : MonoBehaviour
         init_pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y));
         foreach (Planet p in Gravity.planets)
         {
-            if(p.selected)
-            {
-                if (p.Game_obj != this.gameObject)
-                    p.selected = false;
-            }
+            p.selected = false;
         }
         Gravity.GetPlanet(this.gameObject).moused = true;
         Gravity.GetPlanet(gameObject).selected = true;

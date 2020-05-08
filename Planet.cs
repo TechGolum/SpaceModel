@@ -8,7 +8,6 @@ public class Planet
     private float mass = 1;
     private float initial_speed = 0;
     private float speed = 0;
-    private float spin = 0;
     private Vector3 initial_direction;
 
     public bool selected = false;
@@ -18,10 +17,9 @@ public class Planet
     static public float G = 6.67f;
     static public float slow = 1;
 
-    public Planet(float mass, float speed, float spin, GameObject game_obj)
+    public Planet(float mass, float speed, GameObject game_obj)
     {
         Mass = mass;
-        Spin = spin;
         Initial_Speed = speed;
         Speed = speed;
         Game_obj = game_obj;
@@ -47,11 +45,6 @@ public class Planet
     {
         get { return speed; }
         set { if (value >= 0 && value.GetType() == 1f.GetType()) speed = value; }
-    }
-    public float Spin
-    {
-        get { return spin; }
-        set { if (value >= 0 && value.GetType() == 1f.GetType()) spin = value; }
     }
     public string Name
     {
