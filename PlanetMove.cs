@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlanetMove : MonoBehaviour
 {
-    public GameObject params_folder;
     Vector3 mousePosition;
     Vector3 init_pos;
 
