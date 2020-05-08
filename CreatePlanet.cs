@@ -14,6 +14,7 @@ public class CreatePlanet : MonoBehaviour
     public Text Mass;
     public Text Speed;
     public Toggle Follow;
+    static public bool diselected = true;
 
     float timer;
 
@@ -28,24 +29,46 @@ public class CreatePlanet : MonoBehaviour
         {
             Gravity.pause = !Gravity.pause;
         }
-        if(GetSelectedPlanet() != null && timer > 1)
+        if(GetSelectedPlanet() != null)
         {
             params_folder.SetActive(true);
             Name.text = "NAME: " + GetSelectedPlanet().Name;
             Mass.text = "MASS: " + GetSelectedPlanet().Mass;
-            Speed.text = "SPEED: " + GetSelectedPlanet().Speed * 100;
+            Speed.text = "SPEED: " + GetSelectedPlanet().Speed;
             timer = 0;
         }
-        if(Follow.isOn && GetSelectedPlanet() != null)
+        if(!diselected)
         {
-            Camera.main.transform.position = new Vector3(GetSelectedPlanet().Game_obj.transform.position.x,  
-                                                        Camera.main.transform.position.y, 
-                                                        GetSelectedPlanet().Game_obj.transform.position.z);
+            Follow.isOn = false;
+            diselected = true;
         }
-        //Debug.Log(GetSelectedPlanet().Speed);
+        if(Follow.isOn)
+        {
+            foreach (Planet p in Gravity.planets) 
+            {
+                if (p.selected)
+                {
+                    foreach (Planet p1 in Gravity.planets)
+                    {
+                        p1.followed = false;
+                    }
+                    p.followed = true;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            GetSelectedPlanet().followed = false;
+        }
+        if(GetFollowedPlanet() != null)
+        {
+            Camera.main.transform.position = new Vector3(GetFollowedPlanet().Game_obj.transform.position.x,  
+                                                        Camera.main.transform.position.y, 
+                                                        GetFollowedPlanet().Game_obj.transform.position.z);
+        }
         timer += Time.deltaTime;
     }
-
     public void Add()
     {
         Gravity.planets.Add(new Planet(int.Parse(input_mass.text), 
@@ -54,12 +77,20 @@ public class CreatePlanet : MonoBehaviour
                                                    new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z),
                                                    new Quaternion())));
     }
-
     static public Planet GetSelectedPlanet()
     {
         foreach(Planet p in Gravity.planets)
         {
             if (p.selected)
+                return p;
+        }
+        return null;
+    }
+    static public Planet GetFollowedPlanet()
+    {
+        foreach (Planet p in Gravity.planets)
+        {
+            if (p.followed)
                 return p;
         }
         return null;
