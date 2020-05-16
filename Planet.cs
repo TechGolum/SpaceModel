@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Planet
 {
-    private string name = "Jupiter";
-    private float mass = 1;
-    private float initial_speed = 0;
-    private float speed = 0;
+    private string name;
+    private float mass;
+    private float initial_speed;
+    private float speed;
     private Vector3 initial_direction;
 
     public bool selected = false;
@@ -15,13 +15,14 @@ public class Planet
     public bool followed = false;
 
     static public float G = 6.67f;
-    static public float slow = 1;
+    static private int count = 1;
 
-    public Planet(float mass, float speed, GameObject game_obj)
+    public Planet(float mass, float speed, GameObject game_obj, string name)
     {
         Mass = mass;
         Initial_Speed = speed;
         Speed = speed;
+        Name = name;
         Game_obj = game_obj;
         Game_obj.GetComponent<Transform>().localScale = setRadius(mass);
     }
@@ -34,22 +35,22 @@ public class Planet
     public float Mass
     {
         get { return mass; }
-        set { if (value > 0 && value.GetType() == 1f.GetType()) mass = value; }
+        set { if (value > 0 && value.GetType() == 1f.GetType()) mass = value; else mass = 1; }
     }
     public float Initial_Speed 
     {
         get { return initial_speed; }
-        set { if (value >= 0 && value.GetType() == 1f.GetType()) initial_speed = value; }
+        set { if (value >= 0 && value.GetType() == 1f.GetType()) initial_speed = value; else initial_speed = 0; }
     }
     public float Speed
     {
         get { return speed; }
-        set { if (value >= 0 && value.GetType() == 1f.GetType()) speed = value; }
+        set { if (value >= 0 && value.GetType() == 1f.GetType()) speed = value; else speed = 0; }
     }
     public string Name
     {
         get { return name; }
-        set { if (value != null) name = value; }
+        set { if (value != null && value != "" && value != "0") name = value; else name = "Planet" + count++; }
     }
     public Vector3 Initial_Direction
     {

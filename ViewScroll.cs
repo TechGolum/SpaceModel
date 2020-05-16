@@ -47,28 +47,6 @@ public class ViewScroll : MonoBehaviour
                 transform.Rotate(-10 * Time.deltaTime, 0, 0);
             }
         }
-        if (Input.GetKey(KeyCode.Y))
-        {
-            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift))
-            {
-                transform.Rotate(0, 10 * Time.deltaTime, 0);
-            }
-            else if (Input.GetKey(KeyCode.LeftControl))
-            {
-                transform.Rotate(0, -10 * Time.deltaTime, 0);
-            }
-        }
-        if (Input.GetKey(KeyCode.Z))
-        {
-            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift))
-            {
-                transform.Rotate(0, 0, 10 * Time.deltaTime);
-            }
-            else if (Input.GetKey(KeyCode.LeftControl))
-            {
-                transform.Rotate(0, 0, -10 * Time.deltaTime);
-            }
-        }
     }
 
     

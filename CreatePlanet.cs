@@ -8,6 +8,7 @@ public class CreatePlanet : MonoBehaviour
     public GameObject planet;
     public InputField input_mass;
     public InputField input_speed;
+    public InputField input_name;
 
     public GameObject params_folder;
     public Text Name;
@@ -71,11 +72,14 @@ public class CreatePlanet : MonoBehaviour
     }
     public void Add()
     {
-        Gravity.planets.Add(new Planet(int.Parse(input_mass.text), 
-                                       int.Parse(input_speed.text), 
-                                       Instantiate(planet, 
+        input_mass.text = input_mass.text == "" ? "1" : input_mass.text;
+        input_speed.text = input_speed.text == "" ? "0" : input_speed.text;
+        Gravity.planets.Add(new Planet(int.Parse(input_mass.text),
+                                       int.Parse(input_speed.text),
+                                       Instantiate(planet,
                                                    new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z),
-                                                   new Quaternion())));
+                                                   new Quaternion()), 
+                                       input_speed.text));
     }
     static public Planet GetSelectedPlanet()
     {
