@@ -11,7 +11,8 @@ public class PlanetMove : MonoBehaviour
     {
         if (!Gravity.GetPlanet(gameObject).followed)
         {
-            mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y);
+            if(!ViewScroll.x) mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y);
+            else mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z);
             transform.position += Camera.main.ScreenToWorldPoint(mousePosition) - init_pos;
             init_pos = Camera.main.ScreenToWorldPoint(mousePosition);
         }
@@ -19,7 +20,8 @@ public class PlanetMove : MonoBehaviour
     private void OnMouseDown()
     {
         CreatePlanet.diselected = CreatePlanet.GetSelectedPlanet() == Gravity.GetPlanet(gameObject);
-        init_pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y));
+        if(!ViewScroll.x) init_pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y));
+        else init_pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
         Gravity.GetPlanet(this.gameObject).moused = true;
         foreach(Planet p in Gravity.planets)
         {

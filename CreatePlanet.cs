@@ -72,12 +72,15 @@ public class CreatePlanet : MonoBehaviour
     }
     public void Add()
     {
+        Vector3 v3 = !ViewScroll.x ? 
+            new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z) : 
+            new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0);
         input_mass.text = input_mass.text == "" ? "1" : input_mass.text;
         input_speed.text = input_speed.text == "" ? "0" : input_speed.text;
         Gravity.planets.Add(new Planet(int.Parse(input_mass.text),
                                        int.Parse(input_speed.text),
                                        Instantiate(planet,
-                                                   new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z),
+                                                   v3,
                                                    new Quaternion()), 
                                        input_speed.text));
     }

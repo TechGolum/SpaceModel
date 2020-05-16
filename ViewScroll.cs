@@ -4,6 +4,8 @@ using UnityEngine;
 //
 public class ViewScroll : MonoBehaviour
 {
+    static public bool x = false;
+    static bool changed = false;
     void Start()
     {
         
@@ -28,26 +30,39 @@ public class ViewScroll : MonoBehaviour
         {
             transform.Translate(-Vector3.left * 10 * Time.deltaTime);
         }
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f || Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Equals)) // forward
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f || Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Equals) || Input.GetKey(KeyCode.RightControl) && Input.GetKey(KeyCode.Equals)) // forward
         {
             transform.Translate(Vector3.forward * 40 * Time.deltaTime);
         }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0f || Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Minus)) // backwards
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0f || Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Minus) || Input.GetKey(KeyCode.RightControl) && Input.GetKey(KeyCode.Minus)) // backwards
         {
             transform.Translate(-Vector3.forward * 40 * Time.deltaTime);
         }
-        if (Input.GetKey(KeyCode.X))
+        if(changed)
         {
-            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift))
+            if(x)
             {
-                transform.Rotate(10 * Time.deltaTime, 0, 0);
+                transform.Rotate(-90, 0, 0);
+                transform.position = new Vector3(0, 0, -transform.position.y);
             }
-            else if (Input.GetKey(KeyCode.LeftControl))
+            else
             {
-                transform.Rotate(-10 * Time.deltaTime, 0, 0);
+                transform.Rotate(90, 0, 0);
+                transform.position = new Vector3(0, -transform.position.z, 0);
             }
+            changed = false;
         }
     }
 
-    
+    public void V1()
+    {
+        if (x) changed = true;
+        x = false;
+    }
+
+    public void V2()
+    {
+        if (!x) changed = true;
+        x = true;
+    }
 }
