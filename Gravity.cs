@@ -57,4 +57,13 @@ public class Gravity : MonoBehaviour
         }
         return null;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!pause)
+        {
+            planets.Remove(GetPlanet(gameObject));
+            Destroy(gameObject);
+        }
+    }
 }

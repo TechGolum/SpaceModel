@@ -4,7 +4,7 @@ using UnityEngine;
 //
 public class ViewScroll : MonoBehaviour
 {
-    static public bool x = false;
+    static public bool v2 = false;
     static bool changed = false;
     void Start()
     {
@@ -40,7 +40,7 @@ public class ViewScroll : MonoBehaviour
         }
         if(changed)
         {
-            if(x)
+            if(v2)
             {
                 transform.Rotate(-90, 0, 0);
                 transform.position = new Vector3(0, 0, -transform.position.y);
@@ -52,17 +52,22 @@ public class ViewScroll : MonoBehaviour
             }
             changed = false;
         }
+        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (v2) V1();
+            else V2();
+        }
     }
 
     public void V1()
     {
-        if (x) changed = true;
-        x = false;
+        if (v2) changed = true;
+        v2 = false;
     }
 
     public void V2()
     {
-        if (!x) changed = true;
-        x = true;
+        if (!v2) changed = true;
+        v2 = true;
     }
 }

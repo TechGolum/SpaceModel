@@ -50,12 +50,16 @@ public class Planet
     public string Name
     {
         get { return name; }
-        set { if (value != null && value != "" && value != "0") name = value; else name = "Planet" + count++; }
+        set { if (value != null && value != "" && value != "0" && value != "Planet" + Count) name = value; else name = "Planet" + count++; }
     }
     public Vector3 Initial_Direction
     {
         get { return initial_direction; }
         set { if (value.GetType() == new Vector3().GetType()) initial_direction = value; }
+    }
+    public static int Count
+    {
+        get { return count; }
     }
     public GameObject Game_obj { get; set; }
 }
