@@ -5,7 +5,7 @@ using UnityEngine;
 public class ViewScroll : MonoBehaviour
 {
     static public bool v2 = false;
-    static bool changed = false;
+    static public bool changed = false;
     void Start()
     {
         
@@ -43,12 +43,12 @@ public class ViewScroll : MonoBehaviour
             if(v2)
             {
                 transform.Rotate(-90, 0, 0);
-                transform.position = new Vector3(0, 0, -transform.position.y);
+                transform.position = new Vector3(transform.position.x, transform.position.z, -transform.position.y);
             }
             else
             {
                 transform.Rotate(90, 0, 0);
-                transform.position = new Vector3(0, -transform.position.z, 0);
+                transform.position = new Vector3(transform.position.x, -transform.position.z, transform.position.y);
             }
             changed = false;
         }

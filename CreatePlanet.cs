@@ -18,11 +18,13 @@ public class CreatePlanet : MonoBehaviour
     public Toggle Follow;
     static public bool diselected = true;
 
-    float timer;
+    float d, timer;
+    bool scene = false;
 
     void Start()
     {
         timer = 0;
+        d = Camera.main.transform.position.y;
     }
 
     void Update()
@@ -41,7 +43,7 @@ public class CreatePlanet : MonoBehaviour
         }
         if(!diselected)
         {
-            Follow.isOn = false;
+            Follow.isOn = GetSelectedPlanet().followed;
             diselected = true;
         }
         if(Follow.isOn)
@@ -63,12 +65,26 @@ public class CreatePlanet : MonoBehaviour
         {
             GetSelectedPlanet().followed = false;
         }
-        if(GetFollowedPlanet() != null)
+        if (GetFollowedPlanet() != null)
         {
-            Camera.main.transform.position = new Vector3(GetFollowedPlanet().Game_obj.transform.position.x,  
-                                                        Camera.main.transform.position.y, 
-                                                        GetFollowedPlanet().Game_obj.transform.position.z);
+            if (!ViewScroll.v2)
+            {
+                scene = true;
+                if (ViewScroll.changed) d = -Camera.main.transform.position.z;
+                Camera.main.transform.position = new Vector3(GetFollowedPlanet().Game_obj.transform.position.x,
+                                                         GetFollowedPlanet().Game_obj.transform.position.y + d,
+                                                         GetFollowedPlanet().Game_obj.transform.position.z);
+            }
+            else
+            {
+                if (ViewScroll.changed && scene) d = -Camera.main.transform.position.y;
+                if(!scene) d = Camera.main.transform.position.z;
+                Camera.main.transform.position = new Vector3(GetFollowedPlanet().Game_obj.transform.position.x,
+                                                              GetFollowedPlanet().Game_obj.transform.position.y,
+                                                              GetFollowedPlanet().Game_obj.transform.position.z + d);
+            }
         }
+        else scene = false;
         timer += Time.deltaTime;
     }
     public void Add()
@@ -108,4 +124,10 @@ public class CreatePlanet : MonoBehaviour
         }
         return null;
     }
+
+    public void Pause()
+    {
+        Gravity.pause = !Gravity.pause;
+    }
+
 }
