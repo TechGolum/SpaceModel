@@ -11,6 +11,8 @@ public class CreatePlanet : MonoBehaviour
     public InputField input_speed;
     public InputField input_name;
     public Toggle destroy_planet;
+    public Dropdown planets_list;
+    List<string> options;
     public static bool destroy = true;
 
     public GameObject params_folder;
@@ -21,9 +23,11 @@ public class CreatePlanet : MonoBehaviour
     public GameObject d_folder;
     public Slider D;
     static public bool diselected = true;
+    public Text Pause_Button;
     static public bool pause;
 
     float d = 20, timer;
+    int val = 0;
 
     void Start()
     {
@@ -34,6 +38,25 @@ public class CreatePlanet : MonoBehaviour
     void Update()
     {
         destroy = destroy_planet.isOn;
+        planets_list.ClearOptions();
+        options = new List<string>();
+        options.Add("None");
+        foreach(Planet p in Gravity.planets)
+        {
+            options.Add(p.Name);
+        }
+        planets_list.AddOptions(options);
+        if (val == planets_list.value)
+        {
+            planets_list.value = Gravity.planets.IndexOf(GetSelectedPlanet()) + 1;
+            val = planets_list.value;
+        }
+        if (planets_list.value > 0 && GetSelectedPlanet() != Gravity.planets[planets_list.value - 1])
+        {
+            GetSelectedPlanet().selected = false;
+            Gravity.planets[planets_list.value - 1].selected = true;
+            Follow.isOn = Gravity.planets[planets_list.value - 1].followed;
+        }
         if (Input.GetKeyDown(KeyCode.P)) Pause();
         if(GetSelectedPlanet() != null)
         {
@@ -42,6 +65,10 @@ public class CreatePlanet : MonoBehaviour
             Mass.text = "MASS: " + GetSelectedPlanet().Mass;
             Speed.text = "SPEED: " + GetSelectedPlanet().Speed;
             timer = 0;
+        }
+        else
+        {
+            params_folder.SetActive(false);
         }
         if(!diselected)
         {
@@ -85,6 +112,7 @@ public class CreatePlanet : MonoBehaviour
             }
         }
         timer += Time.deltaTime;
+
     }
     public void Add()
     {
@@ -105,7 +133,7 @@ public class CreatePlanet : MonoBehaviour
                                                        new Quaternion()),
                                            input_name.text));
             Camera.main.transform.Translate(Vector3.left * int.Parse(input_mass.text) * 2);
-
+            Gravity.planets[Gravity.planets.Count - 1].selected = true;
         }
     }
     static public Planet GetSelectedPlanet()
@@ -130,6 +158,7 @@ public class CreatePlanet : MonoBehaviour
     public void Pause()
     {
         pause = !pause;
+        Pause_Button.text = pause ? "PLAY" : "PAUSE";
     }
 
 }
