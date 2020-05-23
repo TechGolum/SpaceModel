@@ -126,14 +126,16 @@ public class CreatePlanet : MonoBehaviour
             if (int.Parse(input_mass.text) > Planet.max_mass) input_mass.text = Planet.max_mass.ToString();
             if (int.Parse(input_speed.text) > Planet.max_speed) input_speed.text = Planet.max_speed.ToString();
             input_name.text = input_name.text == "" || input_name.text == "Planet" + (Planet.Count - 1) ? "Planet" + Planet.Count : input_name.text;
+            GameObject g = Instantiate(planet,
+                                                       init_pos,
+                                                       new Quaternion());
             Gravity.planets.Add(new Planet(int.Parse(input_mass.text),
                                            int.Parse(input_speed.text),
-                                           Instantiate(planet,
-                                                       init_pos,
-                                                       new Quaternion()),
+                                           g,
                                            input_name.text));
             Camera.main.transform.Translate(Vector3.left * int.Parse(input_mass.text) * 2);
             Gravity.planets[Gravity.planets.Count - 1].selected = true;
+            g.GetComponent<Renderer>().material.SetColor("yellow", Color.yellow);
         }
     }
     static public Planet GetSelectedPlanet()
