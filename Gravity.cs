@@ -12,7 +12,6 @@ public class Gravity : MonoBehaviour
     float g;
     float initial_speed;
     Vector3 R;
-    static public bool pause = false;
     float dt = 0.02f;
 
     void Start()
@@ -24,7 +23,7 @@ public class Gravity : MonoBehaviour
 
     void Update()
     {
-        if (!pause)
+        if (!CreatePlanet.pause)
         {
             if (!GetPlanet(gameObject).moused)
             {
@@ -60,7 +59,7 @@ public class Gravity : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!pause)
+        if (!CreatePlanet.pause && CreatePlanet.destroy)
         {
             planets.Remove(GetPlanet(gameObject));
             Destroy(gameObject);

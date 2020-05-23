@@ -10,6 +10,9 @@ public class Planet
     private float speed;
     private Vector3 initial_direction;
 
+    static public float max_mass = 10f;
+    static public float max_speed = 10f;
+
     public bool selected = false;
     public bool moused = false;
     public bool followed = false;

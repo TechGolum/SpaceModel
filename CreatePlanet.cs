@@ -10,16 +10,20 @@ public class CreatePlanet : MonoBehaviour
     public InputField input_mass;
     public InputField input_speed;
     public InputField input_name;
+    public Toggle destroy_planet;
+    public static bool destroy = true;
 
     public GameObject params_folder;
     public Text Name;
     public Text Mass;
     public Text Speed;
     public Toggle Follow;
+    public GameObject d_folder;
+    public Slider D;
     static public bool diselected = true;
+    static public bool pause;
 
-    float d, timer;
-    bool scene = false;
+    float d = 20, timer;
 
     void Start()
     {
@@ -29,10 +33,8 @@ public class CreatePlanet : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Gravity.pause = !Gravity.pause;
-        }
+        destroy = destroy_planet.isOn;
+        if (Input.GetKeyDown(KeyCode.P)) Pause();
         if(GetSelectedPlanet() != null)
         {
             params_folder.SetActive(true);
@@ -65,26 +67,23 @@ public class CreatePlanet : MonoBehaviour
         {
             GetSelectedPlanet().followed = false;
         }
+        d_folder.SetActive(Follow.isOn);
         if (GetFollowedPlanet() != null)
         {
+            d = D.value;
             if (!ViewScroll.v2)
             {
-                scene = true;
-                if (ViewScroll.changed) d = -Camera.main.transform.position.z;
                 Camera.main.transform.position = new Vector3(GetFollowedPlanet().Game_obj.transform.position.x,
                                                          GetFollowedPlanet().Game_obj.transform.position.y + d,
                                                          GetFollowedPlanet().Game_obj.transform.position.z);
             }
             else
             {
-                if (ViewScroll.changed && scene) d = -Camera.main.transform.position.y;
-                if(!scene) d = Camera.main.transform.position.z;
                 Camera.main.transform.position = new Vector3(GetFollowedPlanet().Game_obj.transform.position.x,
                                                               GetFollowedPlanet().Game_obj.transform.position.y,
-                                                              GetFollowedPlanet().Game_obj.transform.position.z + d);
+                                                              GetFollowedPlanet().Game_obj.transform.position.z - d);
             }
         }
-        else scene = false;
         timer += Time.deltaTime;
     }
     public void Add()
@@ -96,14 +95,17 @@ public class CreatePlanet : MonoBehaviour
                 new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0);
             input_mass.text = input_mass.text == "" ? "1" : input_mass.text;
             input_speed.text = input_speed.text == "" ? "0" : input_speed.text;
+            if (int.Parse(input_mass.text) > Planet.max_mass) input_mass.text = Planet.max_mass.ToString();
+            if (int.Parse(input_speed.text) > Planet.max_speed) input_speed.text = Planet.max_speed.ToString();
             input_name.text = input_name.text == "" || input_name.text == "Planet" + (Planet.Count - 1) ? "Planet" + Planet.Count : input_name.text;
             Gravity.planets.Add(new Planet(int.Parse(input_mass.text),
                                            int.Parse(input_speed.text),
                                            Instantiate(planet,
                                                        init_pos,
                                                        new Quaternion()),
-                                           input_speed.text));
-            Camera.main.transform.Translate(Vector3.left * int.Parse(input_mass.text)* 2);
+                                           input_name.text));
+            Camera.main.transform.Translate(Vector3.left * int.Parse(input_mass.text) * 2);
+
         }
     }
     static public Planet GetSelectedPlanet()
@@ -127,7 +129,7 @@ public class CreatePlanet : MonoBehaviour
 
     public void Pause()
     {
-        Gravity.pause = !Gravity.pause;
+        pause = !pause;
     }
 
 }
