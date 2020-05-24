@@ -1,6 +1,7 @@
 ﻿//using NUnit.Framework.Internal.Execution;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -89,12 +90,13 @@ public class CreatePlanet : MonoBehaviour
                     break;
                 }
             }
+            d_folder.SetActive(Follow.isOn);
         }
         else
         {
             GetSelectedPlanet().followed = false;
         }
-        d_folder.SetActive(Follow.isOn);
+
         if (GetFollowedPlanet() != null)
         {
             d = D.value;
@@ -122,10 +124,11 @@ public class CreatePlanet : MonoBehaviour
                 new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z) :
                 new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0);
             input_mass.text = input_mass.text == "" ? "1" : input_mass.text;
-            input_speed.text = input_speed.text == "" ? "0" : input_speed.text;
             if (int.Parse(input_mass.text) > Planet.max_mass) input_mass.text = Planet.max_mass.ToString();
+            input_speed.text = input_speed.text == "" ? "0" : input_speed.text;
             if (int.Parse(input_speed.text) > Planet.max_speed) input_speed.text = Planet.max_speed.ToString();
             input_name.text = input_name.text == "" || input_name.text == "Planet" + (Planet.Count - 1) ? "Planet" + Planet.Count : input_name.text;
+            if (nameExists(input_name.text)) input_name.text += "*";
             GameObject g = Instantiate(planet,
                                                        init_pos,
                                                        new Quaternion());
@@ -161,6 +164,15 @@ public class CreatePlanet : MonoBehaviour
     {
         pause = !pause;
         Pause_Button.text = pause ? "PLAY" : "PAUSE";
+    }
+
+    bool nameExists(string name)
+    {
+        foreach(Planet p in Gravity.planets)
+        {
+            if (p.Name == name) return true;
+        }
+        return false;
     }
 
 }

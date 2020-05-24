@@ -54,8 +54,7 @@ public class ViewScroll : MonoBehaviour
         }
         if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Tab))
         {
-            if (v2) V1();
-            else V2();
+            Change();
         }
     }
 
@@ -69,5 +68,11 @@ public class ViewScroll : MonoBehaviour
     {
         if (!v2) changed = true;
         v2 = true;
+    }
+
+    public void Change()
+    {
+            if (v2) V1();
+            else V2();
     }
 }

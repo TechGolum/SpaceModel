@@ -38,10 +38,6 @@ public class Gravity : MonoBehaviour
                     }
                 }
                 transform.Translate(initial_direction * initial_speed * dt - delta * Planet.G * dt * dt / 2);
-                //GetPlanet(gameObject).Speed = Mathf.Sqrt(Mathf.Pow(transform.position.x - distanse.x, 2) + Mathf.Pow(transform.position.y - distanse.y, 2) + Mathf.Pow(transform.position.z - distanse.z, 2)) / dt;
-                //initial_speed = GetPlanet(gameObject).Speed;
-                //initial_direction = (transform.position - distanse) * 50f;
-                //Debug.Log(initial_direction);
             }
             distanse = transform.position;
         }
