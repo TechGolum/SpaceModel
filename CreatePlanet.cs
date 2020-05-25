@@ -47,17 +47,13 @@ public class CreatePlanet : MonoBehaviour
             options.Add(p.Name);
         }
         planets_list.AddOptions(options);
-        if (val == planets_list.value)
-        {
-            planets_list.value = Gravity.planets.IndexOf(GetSelectedPlanet()) + 1;
-            val = planets_list.value;
-        }
         if (planets_list.value > 0 && GetSelectedPlanet() != Gravity.planets[planets_list.value - 1])
         {
-            GetSelectedPlanet().selected = false;
+            if(GetSelectedPlanet() != null) GetSelectedPlanet().selected = false;
             Gravity.planets[planets_list.value - 1].selected = true;
             Follow.isOn = Gravity.planets[planets_list.value - 1].followed;
         }
+        if (Gravity.planets.Count > 0 && GetSelectedPlanet() != null && planets_list.value == 0) GetSelectedPlanet().selected = false;
         if (Input.GetKeyDown(KeyCode.P)) Pause();
         if(GetSelectedPlanet() != null)
         {
@@ -90,13 +86,12 @@ public class CreatePlanet : MonoBehaviour
                     break;
                 }
             }
-            d_folder.SetActive(Follow.isOn);
         }
         else
         {
-            GetSelectedPlanet().followed = false;
+            try { GetSelectedPlanet().followed = false; } catch { }
         }
-
+        d_folder.SetActive(Follow.isOn);
         if (GetFollowedPlanet() != null)
         {
             d = D.value;
