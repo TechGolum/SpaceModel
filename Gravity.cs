@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Gravity : MonoBehaviour
 {
     static public List<Planet> planets = new List<Planet>();
-    Vector3 distanse;
     Vector3 delta;
     Vector3 initial_direction;
     float g;
@@ -17,7 +16,6 @@ public class Gravity : MonoBehaviour
     void Start()
     {
         initial_speed = planets[planets.Count - 1].Initial_Speed;
-        distanse = this.gameObject.transform.position;
         initial_direction = Vector3.left;
     }
 
@@ -27,7 +25,6 @@ public class Gravity : MonoBehaviour
         {
             if (!GetPlanet(gameObject).moused)
             {
-                //delta = new Vector3();
                 foreach (Planet planet in planets)
                 {
                     if (planet.Game_obj != this.gameObject)
@@ -37,9 +34,8 @@ public class Gravity : MonoBehaviour
                         delta += R * g;
                     }
                 }
-                transform.Translate(initial_direction * initial_speed * dt - delta * Planet.G * dt * dt / 2);
+                transform.Translate(initial_direction * initial_speed * dt - delta * Planet.G * dt * dt / 2, Space.World);
             }
-            distanse = transform.position;
         }
     }
 

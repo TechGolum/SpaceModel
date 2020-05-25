@@ -72,7 +72,7 @@ public class ViewScroll : MonoBehaviour
 
     public void Change()
     {
-            if (v2) V1();
-            else V2();
+        if (v2) V1();
+        else V2();
     }
 }
