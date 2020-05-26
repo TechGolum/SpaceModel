@@ -6,6 +6,6 @@ public class EarthSpinScript : MonoBehaviour {
 
     void Update() {
         if(!CreatePlanet.pause)
-            transform.Rotate(0, speed * Time.deltaTime, 0, Space.Self);
+            transform.Rotate(0, Gravity.GetPlanet(gameObject).Spin * Time.deltaTime, 0, Space.Self);
     }
 }

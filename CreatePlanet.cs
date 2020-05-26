@@ -11,6 +11,7 @@ public class CreatePlanet : MonoBehaviour
     public InputField input_mass;
     public InputField input_speed;
     public InputField input_name;
+    public InputField input_spin;
     public Toggle destroy_planet;
     public Dropdown planets_list;
     List<string> options;
@@ -20,6 +21,7 @@ public class CreatePlanet : MonoBehaviour
     public Text Name;
     public Text Mass;
     public Text Speed;
+    public Text Spin;
     public Toggle Follow;
     public GameObject d_folder;
     public Slider D;
@@ -28,7 +30,6 @@ public class CreatePlanet : MonoBehaviour
     static public bool pause;
 
     float d = 20, timer;
-    int val = 0;
 
     void Start()
     {
@@ -61,6 +62,7 @@ public class CreatePlanet : MonoBehaviour
             Name.text = "NAME: " + GetSelectedPlanet().Name;
             Mass.text = "MASS: " + GetSelectedPlanet().Mass;
             Speed.text = "SPEED: " + GetSelectedPlanet().Speed;
+            Spin.text = "SPIN: " + GetSelectedPlanet().Spin;
             timer = 0;
         }
         else
@@ -118,10 +120,19 @@ public class CreatePlanet : MonoBehaviour
             Vector3 init_pos = !ViewScroll.v2 ?
                 new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z) :
                 new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0);
+
             input_mass.text = input_mass.text == "" ? "1" : input_mass.text;
             if (int.Parse(input_mass.text) > Planet.max_mass) input_mass.text = Planet.max_mass.ToString();
+            if (int.Parse(input_mass.text) <= 0) input_mass.text = "1";
+
             input_speed.text = input_speed.text == "" ? "0" : input_speed.text;
             if (int.Parse(input_speed.text) > Planet.max_speed) input_speed.text = Planet.max_speed.ToString();
+            if (int.Parse(input_speed.text) <= 0) input_speed.text = "0";
+
+            input_spin.text = input_spin.text == "" ? "0" : input_spin.text;
+            if (int.Parse(input_spin.text) > Planet.max_spin) input_spin.text = Planet.max_spin.ToString();
+            if (int.Parse(input_spin.text) <= 0) input_spin.text = "0";
+
             input_name.text = input_name.text == "" || input_name.text == "Planet" + (Planet.Count - 1) ? "Planet" + Planet.Count : input_name.text;
             if (nameExists(input_name.text)) input_name.text += "*";
             GameObject g = Instantiate(planet,
@@ -130,10 +141,10 @@ public class CreatePlanet : MonoBehaviour
             Gravity.planets.Add(new Planet(int.Parse(input_mass.text),
                                            int.Parse(input_speed.text),
                                            g,
-                                           input_name.text));
-            Camera.main.transform.Translate(Vector3.left * int.Parse(input_mass.text) * 2);
+                                           input_name.text,
+                                           int.Parse(input_spin.text)));
             Gravity.planets[Gravity.planets.Count - 1].selected = true;
-            g.GetComponent<Renderer>().material.SetColor("yellow", Color.yellow);
+            Camera.main.transform.Translate(Vector3.left * int.Parse(input_mass.text) * 2, Space.Self);
         }
     }
     static public Planet GetSelectedPlanet()

@@ -8,10 +8,12 @@ public class Planet
     private float mass;
     private float initial_speed;
     private float speed;
+    private float spin;
     private Vector3 initial_direction;
 
     static public float max_mass = 10f;
     static public float max_speed = 10f;
+    static public float max_spin = 100f;
 
     public bool selected = false;
     public bool moused = false;
@@ -20,12 +22,13 @@ public class Planet
     static public float G = 6.67f;
     static private int count = 1;
 
-    public Planet(float mass, float speed, GameObject game_obj, string name)
+    public Planet(float mass, float speed, GameObject game_obj, string name, float spin)
     {
         Mass = mass;
         Initial_Speed = speed;
         Speed = speed;
         Name = name;
+        Spin = spin;
         Game_obj = game_obj;
         Game_obj.GetComponent<Transform>().localScale = setRadius(mass);
     }
@@ -59,6 +62,11 @@ public class Planet
     {
         get { return initial_direction; }
         set { if (value.GetType() == new Vector3().GetType()) initial_direction = value; }
+    }
+    public float Spin
+    {
+        get { return spin; }
+        set { if (value >= 0 && value.GetType() == 1f.GetType()) spin = value; else spin = 0; }
     }
     public static int Count
     {
