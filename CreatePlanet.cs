@@ -129,7 +129,7 @@ public class CreatePlanet : MonoBehaviour
             if (int.Parse(input_speed.text) > Planet.max_speed) input_speed.text = Planet.max_speed.ToString();
             if (int.Parse(input_speed.text) <= 0) input_speed.text = "0";
 
-            input_spin.text = input_spin.text == "" ? "0" : input_spin.text;
+            input_spin.text = input_spin.text == "" ? "30" : input_spin.text;
             if (int.Parse(input_spin.text) > Planet.max_spin) input_spin.text = Planet.max_spin.ToString();
             if (int.Parse(input_spin.text) <= 0) input_spin.text = "0";
 
