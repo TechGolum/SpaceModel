@@ -4,14 +4,6 @@ using UnityEngine;
 //
 public class ViewScroll : MonoBehaviour
 {
-    static public bool v2 = false;
-    static public bool changed = false;
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if(Input.GetKey(KeyCode.DownArrow))
@@ -38,41 +30,5 @@ public class ViewScroll : MonoBehaviour
         {
             transform.Translate(-Vector3.forward * 40 * Time.deltaTime);
         }
-        if(changed)
-        {
-            if(v2)
-            {
-                transform.Rotate(-90, 0, 0);
-                transform.position = new Vector3(transform.position.x, transform.position.z, -transform.position.y);
-            }
-            else
-            {
-                transform.Rotate(90, 0, 0);
-                transform.position = new Vector3(transform.position.x, -transform.position.z, transform.position.y);
-            }
-            changed = false;
-        }
-        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Tab))
-        {
-            Change();
-        }
-    }
-
-    public void V1()
-    {
-        if (v2) changed = true;
-        v2 = false;
-    }
-
-    public void V2()
-    {
-        if (!v2) changed = true;
-        v2 = true;
-    }
-
-    public void Change()
-    {
-        if (v2) V1();
-        else V2();
     }
 }

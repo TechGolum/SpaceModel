@@ -9,9 +9,9 @@ public class PlanetMove : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        if (!Gravity.GetPlanet(gameObject).followed)
+        if (!PlanetsInfo.GetPlanet(gameObject).followed)
         {
-            if(!ViewScroll.v2) mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y + transform.position.y, Camera.main.transform.position.y - transform.position.y);
+            if(!ChangeScreens.v2) mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y + transform.position.y, Camera.main.transform.position.y - transform.position.y);
             else mousePosition = new Vector3(-Input.mousePosition.x, -Input.mousePosition.y - transform.position.y, Camera.main.transform.position.z + Input.mousePosition.z);
             transform.position += Camera.main.ScreenToWorldPoint(mousePosition) - init_pos;
             init_pos = Camera.main.ScreenToWorldPoint(mousePosition);
@@ -19,18 +19,17 @@ public class PlanetMove : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        CreatePlanet.diselected = CreatePlanet.GetSelectedPlanet() == Gravity.GetPlanet(gameObject);
-        if(!ViewScroll.v2) init_pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y + transform.position.y, Camera.main.transform.position.y - transform.position.y));
+        if(!ChangeScreens.v2) init_pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y + transform.position.y, Camera.main.transform.position.y - transform.position.y));
         else init_pos = Camera.main.ScreenToWorldPoint(new Vector3(-Input.mousePosition.x, -Input.mousePosition.y - transform.position.y, Camera.main.transform.position.z - Input.mousePosition.z));
-        Gravity.GetPlanet(this.gameObject).moused = true;
+        PlanetsInfo.GetPlanet(this.gameObject).moused = true;
         foreach(Planet p in Gravity.planets)
         {
             p.selected = false;
         }    
-        Gravity.GetPlanet(this.gameObject).selected = true;
+        PlanetsInfo.GetPlanet(this.gameObject).selected = true;
     }
     private void OnMouseUp()
     {
-        Gravity.GetPlanet(this.gameObject).moused = false;
+        PlanetsInfo.GetPlanet(this.gameObject).moused = false;
     }
 }

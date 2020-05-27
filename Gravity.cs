@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class Gravity : MonoBehaviour
 {
-    static public List<Planet> planets = new List<Planet>();
+    [SerializeField]
+    static public List<Planet> planets= new List<Planet>();
     Vector3 delta;
     Vector3 initial_direction;
     float g;
@@ -21,9 +22,9 @@ public class Gravity : MonoBehaviour
 
     void Update()
     {
-        if (!CreatePlanet.pause)
+        if (!PlanetsInfo.pause)
         {
-            if (!GetPlanet(gameObject).moused)
+            if (!PlanetsInfo.GetPlanet(gameObject).moused)
             {
                 foreach (Planet planet in planets)
                 {
@@ -31,29 +32,22 @@ public class Gravity : MonoBehaviour
                     {
                         R = this.gameObject.transform.position - planet.Game_obj.transform.position;
                         g = planet.Mass / (R.x * R.x + R.y * R.y + R.z * R.z);
-                        delta += R * g;
+                        PlanetsInfo.GetPlanet(gameObject).delta += R * g;
                     }
                 }
-                transform.Translate(initial_direction * initial_speed * dt - delta * Planet.G * dt * dt / 2, Space.World);
+                transform.Translate(PlanetsInfo.GetPlanet(gameObject).Initial_Direction * PlanetsInfo.GetPlanet(gameObject).Initial_Speed * dt -
+                    PlanetsInfo.GetPlanet(gameObject).delta * Planet.G * dt * dt / 2, Space.World);
+                if (!PlanetsInfo.pause)
+                    transform.Rotate(0, PlanetsInfo.GetPlanet(gameObject).Spin * Time.deltaTime, 0, Space.Self);
             }
         }
     }
 
-    static public Planet GetPlanet(GameObject gObj)
-    {
-        foreach (Planet p in planets)
-        {
-            if (p.Game_obj == gObj)
-                return p;
-        }
-        return null;
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
-        if (!CreatePlanet.pause && CreatePlanet.destroy)
+        if (!PlanetsInfo.pause && PlanetsInfo.destroy)
         {
-            planets.Remove(GetPlanet(gameObject));
+            planets.Remove(PlanetsInfo.GetPlanet(gameObject));
             Destroy(gameObject);
         }
     }

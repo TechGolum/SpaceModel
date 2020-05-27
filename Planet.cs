@@ -31,6 +31,7 @@ public class Planet
         Spin = spin;
         Game_obj = game_obj;
         Game_obj.GetComponent<Transform>().localScale = setRadius(mass);
+        delta = new Vector3();
     }
 
     private Vector3 setRadius(float mass)
@@ -60,9 +61,10 @@ public class Planet
     }
     public Vector3 Initial_Direction
     {
-        get { return initial_direction; }
+        get { return Vector3.left; }
         set { if (value.GetType() == new Vector3().GetType()) initial_direction = value; }
     }
+    public Vector3 delta { get; set; }
     public float Spin
     {
         get { return spin; }
