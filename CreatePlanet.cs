@@ -34,14 +34,8 @@ public class CreatePlanet : MonoBehaviour
 
             input_name.text = input_name.text == "" || input_name.text == "Planet" + (Planet.Count - 1) ? "Planet" + Planet.Count : input_name.text;
             if (nameExists(input_name.text)) input_name.text += "*";
-            GameObject g = Instantiate(planet,
-                                                       init_pos,
-                                                       new Quaternion());
-            Gravity.planets.Add(new Planet(int.Parse(input_mass.text),
-                                           int.Parse(input_speed.text),
-                                           g,
-                                           input_name.text,
-                                           int.Parse(input_spin.text)));
+            GameObject g = Instantiate(planet, init_pos, new Quaternion());
+            Gravity.planets.Add(new Planet(int.Parse(input_mass.text), int.Parse(input_speed.text), g, input_name.text, int.Parse(input_spin.text)));
             Gravity.planets[Gravity.planets.Count - 1].selected = true;
             Camera.main.transform.Translate(Vector3.left * int.Parse(input_mass.text) * 2, Space.Self);
         }

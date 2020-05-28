@@ -6,24 +6,16 @@ using UnityEngine.UI;
 public class Gravity : MonoBehaviour
 {
     [SerializeField]
-    static public List<Planet> planets= new List<Planet>();
-    Vector3 delta;
-    Vector3 initial_direction;
+    static public List<Planet> planets = new List<Planet>();
     float g;
-    float initial_speed;
     Vector3 R;
     float dt = 0.02f;
-
-    void Start()
-    {
-        initial_speed = planets[planets.Count - 1].Initial_Speed;
-        initial_direction = Vector3.left;
-    }
 
     void Update()
     {
         if (!PlanetsInfo.pause)
         {
+            Planet.number_of_planets = planets.Count;
             if (!PlanetsInfo.GetPlanet(gameObject).moused)
             {
                 foreach (Planet planet in planets)
