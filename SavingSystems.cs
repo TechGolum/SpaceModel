@@ -13,8 +13,8 @@ public class SavingSystems : MonoBehaviour
     static List<float> spins;
     static List<SaveVector3> init_poses;
     static List<SaveVector3> deltas;
-
-    static SavingSystems()
+    float timer = 0f;
+    static void GetAll()
     {
         names = new List<string>();
         speeds = new List<float>();
@@ -22,10 +22,7 @@ public class SavingSystems : MonoBehaviour
         spins = new List<float>();
         init_poses = new List<SaveVector3>();
         deltas = new List<SaveVector3>();
-    }
-    static void GetAll()
-    {
-        foreach(Planet p in SystemsInfo.GetSelectedSystem().planets)
+        foreach (Planet p in Systems.planets)
         {
             names.Add(p.Name);
             speeds.Add(p.Speed);
@@ -39,7 +36,9 @@ public class SavingSystems : MonoBehaviour
     {
         GetAll();
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/gamesave.save");
+        FileStream file;
+        file = File.Create(Application.persistentDataPath + "/" + SystemsInfo.GetSelectedSystem().name + ".save");
+
         bf.Serialize(file, Planet.number_of_planets);
         bf.Serialize(file, masses);
         bf.Serialize(file, speeds);
@@ -52,9 +51,12 @@ public class SavingSystems : MonoBehaviour
     }
     private void Update()
     {
-        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A) && SystemsInfo.GetSelectedSystem().planets.Count > 0)
+        Planet.number_of_planets = Systems.planets.Count;
+        if (timer >= 1)
         {
-            SaveGame();
+            if(!SystemsInfo.changed && Systems.planets.Count > 0) SaveGame();
+            timer = 0;
         }
+        timer += Time.deltaTime;
     }
 }

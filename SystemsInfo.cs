@@ -7,6 +7,11 @@ public class SystemsInfo : MonoBehaviour
 {
     public Text Name, planets_count;
     public Dropdown systems_list;
+    static public bool changed = false;
+    private void Start()
+    {
+        systems_list.value = 0;
+    }
     void Update()
     {
         SetParams();
@@ -25,16 +30,23 @@ public class SystemsInfo : MonoBehaviour
     void SetParams()
     {
         Name.text = "NAME: " + GetSelectedSystem().name;
-        planets_count.text = "PLANETS: " + GetSelectedSystem().planets.Count.ToString();
+        planets_count.text = "PLANETS: " + Systems.planets.Count.ToString();
     }
 
     void SetOptions()
     {
-        List<string> options = new List<string>();
-        foreach(Systems s in Systems.systems)
+        if (Systems.systems.IndexOf(GetSelectedSystem()) != systems_list.value) changed = true;
+        if (GetSelectedSystem() != null)
         {
-            options.Add(s.name);
+            List<string> options = new List<string>();
+            foreach (Systems s in Systems.systems)
+            {
+                options.Add(s.name);
+            }
+            systems_list.ClearOptions();
+            systems_list.AddOptions(options);
+            GetSelectedSystem().selected = false;
+            Systems.systems[systems_list.value].selected = true;
         }
-        systems_list.AddOptions(options);
     }
 }

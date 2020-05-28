@@ -15,10 +15,9 @@ public class Gravity : MonoBehaviour
     {
         if (!PlanetsInfo.pause)
         {
-            Planet.number_of_planets = SystemsInfo.GetSelectedSystem().planets.Count;
             if (!PlanetsInfo.GetPlanet(gameObject).moused)
             {
-                foreach (Planet planet in SystemsInfo.GetSelectedSystem().planets)
+                foreach (Planet planet in Systems.planets)
                 {
                     if (planet.Game_obj != this.gameObject)
                     {
@@ -39,7 +38,7 @@ public class Gravity : MonoBehaviour
     {
         if (!PlanetsInfo.pause && PlanetsInfo.destroy)
         {
-            SystemsInfo.GetSelectedSystem().planets.Remove(PlanetsInfo.GetPlanet(gameObject));
+            Systems.planets.Remove(PlanetsInfo.GetPlanet(gameObject));
             Destroy(gameObject);
         }
     }

@@ -7,13 +7,12 @@ using UnityEngine;
 public class LoadingSystems : MonoBehaviour
 {
     public GameObject planet;
-    public string SystemName;
     public void LoadGame()
     {
-        if (File.Exists(Application.persistentDataPath + "/" + SystemName + ".save"))
+        if (File.Exists(Application.persistentDataPath + "/" + SystemsInfo.GetSelectedSystem().name + ".save"))
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
+            FileStream file = File.Open(Application.persistentDataPath + "/" + SystemsInfo.GetSelectedSystem().name + ".save", FileMode.Open);
             int count = (int)bf.Deserialize(file);
             List<float> masses = (List<float>)bf.Deserialize(file);
             List<float> speeds = (List<float>)bf.Deserialize(file);
@@ -23,30 +22,43 @@ public class LoadingSystems : MonoBehaviour
             List<SaveVector3> deltas = (List<SaveVector3>)bf.Deserialize(file);
             file.Close();
             GameObject g;
-            foreach(Planet p in SystemsInfo.GetSelectedSystem().planets)
+            foreach(Planet p in Systems.planets)
             {
                 Destroy(p.Game_obj);
             }
-            SystemsInfo.GetSelectedSystem().planets = new List<Planet>();
+            Systems.planets = new List<Planet>();
             for (int i = 0; i < count; i++)
             {
                 g = Instantiate(planet, new Vector3(init_poses[i].x, init_poses[i].y, init_poses[i].z), new Quaternion());
-                SystemsInfo.GetSelectedSystem().planets.Add(new Planet(masses[i], speeds[i], g, names[i], spins[i], new Vector3(deltas[i].x, deltas[i].y, deltas[i].z)));
+                Systems.planets.Add(new Planet(masses[i], speeds[i], g, names[i], spins[i], new Vector3(deltas[i].x, deltas[i].y, deltas[i].z)));
             }
 
             Debug.Log("Game Loaded");
         }
         else
         {
-            Debug.Log("No game saved!");
+            Debug.Log("Game created");
+            foreach (Planet p in Systems.planets)
+            {
+                Destroy(p.Game_obj);
+            }
+            Systems.planets = new List<Planet>();
         }
     }
-
+    private void Start()
+    {
+        LoadGame();
+    }
     private void Update()
     {
         if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.D))
         {
             LoadGame();
+        }
+        if (SystemsInfo.changed)
+        {
+            LoadGame();
+            SystemsInfo.changed = false;
         }
     }
 }

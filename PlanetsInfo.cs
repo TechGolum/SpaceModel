@@ -24,7 +24,7 @@ public class PlanetsInfo : MonoBehaviour
 
     void Update()
     {
-        if (SystemsInfo.GetSelectedSystem().planets.Count > 0)
+        if (Systems.planets.Count > 0)
         {
             destroy = destroy_planet.isOn;
             CreateOptions();
@@ -36,21 +36,27 @@ public class PlanetsInfo : MonoBehaviour
             FollowPlanet();
         }
         else
+        {
             params_folder.SetActive(false);
+            planets_list.ClearOptions();
+            options = new List<string>();
+            options.Add("None");
+            planets_list.AddOptions(options);
+        }
         d_folder.SetActive(Follow.isOn);
         add_folder.SetActive(showSpace.isOn);
     }
 
     void Diselect()
     {
-        if (planets_list.value > 0 && GetSelectedPlanet() != SystemsInfo.GetSelectedSystem().planets[planets_list.value - 1])
+        if (planets_list.value > 0 && GetSelectedPlanet() != Systems.planets[planets_list.value - 1])
         {
             if (GetSelectedPlanet() != null) GetSelectedPlanet().selected = false;
-            SystemsInfo.GetSelectedSystem().planets[planets_list.value - 1].selected = true;
-            Follow.isOn = SystemsInfo.GetSelectedSystem().planets[planets_list.value - 1].followed;
+            Systems.planets[planets_list.value - 1].selected = true;
+            Follow.isOn = Systems.planets[planets_list.value - 1].followed;
             diselected = true;
         }
-        if (SystemsInfo.GetSelectedSystem().planets.Count > 0 && GetSelectedPlanet() != null && planets_list.value == 0) GetSelectedPlanet().selected = false;
+        if (Systems.planets.Count > 0 && GetSelectedPlanet() != null && planets_list.value == 0) GetSelectedPlanet().selected = false;
     }
 
     void FollowPlanet()
@@ -62,11 +68,11 @@ public class PlanetsInfo : MonoBehaviour
         }
         if (Follow.isOn)
         {
-            foreach (Planet p in SystemsInfo.GetSelectedSystem().planets)
+            foreach (Planet p in Systems.planets)
             {
                 if (p.selected)
                 {
-                    foreach (Planet p1 in SystemsInfo.GetSelectedSystem().planets)
+                    foreach (Planet p1 in Systems.planets)
                     {
                         p1.followed = false;
                     }
@@ -98,7 +104,7 @@ public class PlanetsInfo : MonoBehaviour
         planets_list.ClearOptions();
         options = new List<string>();
         options.Add("None");
-        foreach (Planet p in SystemsInfo.GetSelectedSystem().planets)
+        foreach (Planet p in Systems.planets)
         {
             options.Add(p.Name);
         }
@@ -107,9 +113,9 @@ public class PlanetsInfo : MonoBehaviour
 
     static public Planet GetSelectedPlanet()
     {
-        if (SystemsInfo.GetSelectedSystem().planets.Count > 0)
+        if (Systems.planets.Count > 0)
         {
-            foreach (Planet p in SystemsInfo.GetSelectedSystem().planets)
+            foreach (Planet p in Systems.planets)
             {
                 if (p.selected)
                     return p;
@@ -120,9 +126,9 @@ public class PlanetsInfo : MonoBehaviour
 
     static public Planet GetFollowedPlanet()
     {
-        if (SystemsInfo.GetSelectedSystem().planets.Count > 0)
+        if (Systems.planets.Count > 0)
         {
-            foreach (Planet p in SystemsInfo.GetSelectedSystem().planets)
+            foreach (Planet p in Systems.planets)
             {
                 if (p.followed)
                     return p;
@@ -133,9 +139,9 @@ public class PlanetsInfo : MonoBehaviour
 
     static public Planet GetPlanet(GameObject gObj)
     {
-        if (SystemsInfo.GetSelectedSystem().planets.Count > 0)
+        if (Systems.planets.Count > 0)
         {
-            foreach (Planet p in SystemsInfo.GetSelectedSystem().planets)
+            foreach (Planet p in Systems.planets)
             {
                 if (p.Game_obj == gObj)
                     return p;

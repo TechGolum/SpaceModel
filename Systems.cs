@@ -8,13 +8,13 @@ public class Systems
     public bool selected = true;
     
     static public List<Systems> systems = new List<Systems>();
-    public List<Planet> planets = new List<Planet>();
+    static public List<Planet> planets = new List<Planet>();
     public Systems(string name)
     {
         this.name = name;
     }
     static Systems()
     {
-        systems.Add(new Systems("System"));
+        systems.Add(new Systems("System1"));
     }
 }

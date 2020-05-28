@@ -13,7 +13,7 @@ public class CreateSystem : MonoBehaviour
 
     public void AddSystem()
     {
-        if (Name.text == "") Name.text = "System1";
         Systems.systems.Add(new Systems(Name.text));
+        Systems.systems[Systems.systems.Count - 1].selected = false;
     }
 }
