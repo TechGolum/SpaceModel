@@ -7,9 +7,10 @@ using UnityEngine;
 public class LoadingSystems : MonoBehaviour
 {
     public GameObject planet;
-    void LoadGame()
+    public string SystemName;
+    public void LoadGame()
     {
-        if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
+        if (File.Exists(Application.persistentDataPath + "/" + SystemName + ".save"))
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
@@ -22,15 +23,15 @@ public class LoadingSystems : MonoBehaviour
             List<SaveVector3> deltas = (List<SaveVector3>)bf.Deserialize(file);
             file.Close();
             GameObject g;
-            foreach(Planet p in Gravity.planets)
+            foreach(Planet p in SystemsInfo.GetSelectedSystem().planets)
             {
                 Destroy(p.Game_obj);
             }
-            Gravity.planets = new List<Planet>();
+            SystemsInfo.GetSelectedSystem().planets = new List<Planet>();
             for (int i = 0; i < count; i++)
             {
                 g = Instantiate(planet, new Vector3(init_poses[i].x, init_poses[i].y, init_poses[i].z), new Quaternion());
-                Gravity.planets.Add(new Planet(masses[i], speeds[i], g, names[i], spins[i], new Vector3(deltas[i].x, deltas[i].y, deltas[i].z)));
+                SystemsInfo.GetSelectedSystem().planets.Add(new Planet(masses[i], speeds[i], g, names[i], spins[i], new Vector3(deltas[i].x, deltas[i].y, deltas[i].z)));
             }
 
             Debug.Log("Game Loaded");

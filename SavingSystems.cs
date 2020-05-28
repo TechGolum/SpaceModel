@@ -25,7 +25,7 @@ public class SavingSystems : MonoBehaviour
     }
     static void GetAll()
     {
-        foreach(Planet p in Gravity.planets)
+        foreach(Planet p in SystemsInfo.GetSelectedSystem().planets)
         {
             names.Add(p.Name);
             speeds.Add(p.Speed);
@@ -35,7 +35,7 @@ public class SavingSystems : MonoBehaviour
             deltas.Add(new SaveVector3(p.delta.x, p.delta.y, p.delta.z));
         }
     }
-    static public void SaveGame()
+    public void SaveGame()
     {
         GetAll();
         BinaryFormatter bf = new BinaryFormatter();
@@ -52,7 +52,7 @@ public class SavingSystems : MonoBehaviour
     }
     private void Update()
     {
-        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A))
+        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A) && SystemsInfo.GetSelectedSystem().planets.Count > 0)
         {
             SaveGame();
         }

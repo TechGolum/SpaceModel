@@ -10,7 +10,7 @@ public class PlanetsInfo : MonoBehaviour
     List<string> options;
     public static bool destroy = true;
 
-    public GameObject params_folder;
+    public GameObject add_folder, params_folder;
     public Text Name;
     public Text Mass;
     public Text Speed;
@@ -20,10 +20,11 @@ public class PlanetsInfo : MonoBehaviour
     static public bool diselected = false;
     public Text Pause_Button;
     static public bool pause;
+    public Toggle showSpace;
 
     void Update()
     {
-        if (Gravity.planets.Count > 0)
+        if (SystemsInfo.GetSelectedSystem().planets.Count > 0)
         {
             destroy = destroy_planet.isOn;
             CreateOptions();
@@ -37,18 +38,19 @@ public class PlanetsInfo : MonoBehaviour
         else
             params_folder.SetActive(false);
         d_folder.SetActive(Follow.isOn);
+        add_folder.SetActive(showSpace.isOn);
     }
 
     void Diselect()
     {
-        if (planets_list.value > 0 && GetSelectedPlanet() != Gravity.planets[planets_list.value - 1])
+        if (planets_list.value > 0 && GetSelectedPlanet() != SystemsInfo.GetSelectedSystem().planets[planets_list.value - 1])
         {
             if (GetSelectedPlanet() != null) GetSelectedPlanet().selected = false;
-            Gravity.planets[planets_list.value - 1].selected = true;
-            Follow.isOn = Gravity.planets[planets_list.value - 1].followed;
+            SystemsInfo.GetSelectedSystem().planets[planets_list.value - 1].selected = true;
+            Follow.isOn = SystemsInfo.GetSelectedSystem().planets[planets_list.value - 1].followed;
             diselected = true;
         }
-        if (Gravity.planets.Count > 0 && GetSelectedPlanet() != null && planets_list.value == 0) GetSelectedPlanet().selected = false;
+        if (SystemsInfo.GetSelectedSystem().planets.Count > 0 && GetSelectedPlanet() != null && planets_list.value == 0) GetSelectedPlanet().selected = false;
     }
 
     void FollowPlanet()
@@ -60,11 +62,11 @@ public class PlanetsInfo : MonoBehaviour
         }
         if (Follow.isOn)
         {
-            foreach (Planet p in Gravity.planets)
+            foreach (Planet p in SystemsInfo.GetSelectedSystem().planets)
             {
                 if (p.selected)
                 {
-                    foreach (Planet p1 in Gravity.planets)
+                    foreach (Planet p1 in SystemsInfo.GetSelectedSystem().planets)
                     {
                         p1.followed = false;
                     }
@@ -74,7 +76,7 @@ public class PlanetsInfo : MonoBehaviour
             }
         }
         else
-            GetSelectedPlanet().followed = false;
+            if(GetSelectedPlanet() != null) GetSelectedPlanet().followed = false;
     }
 
     void ShowParams()
@@ -96,7 +98,7 @@ public class PlanetsInfo : MonoBehaviour
         planets_list.ClearOptions();
         options = new List<string>();
         options.Add("None");
-        foreach (Planet p in Gravity.planets)
+        foreach (Planet p in SystemsInfo.GetSelectedSystem().planets)
         {
             options.Add(p.Name);
         }
@@ -105,34 +107,39 @@ public class PlanetsInfo : MonoBehaviour
 
     static public Planet GetSelectedPlanet()
     {
-        foreach (Planet p in Gravity.planets)
+        if (SystemsInfo.GetSelectedSystem().planets.Count > 0)
         {
-            if (p.selected)
-                return p;
+            foreach (Planet p in SystemsInfo.GetSelectedSystem().planets)
+            {
+                if (p.selected)
+                    return p;
+            }
         }
         return null;
     }
 
     static public Planet GetFollowedPlanet()
     {
-        try
+        if (SystemsInfo.GetSelectedSystem().planets.Count > 0)
         {
-            foreach (Planet p in Gravity.planets)
+            foreach (Planet p in SystemsInfo.GetSelectedSystem().planets)
             {
                 if (p.followed)
                     return p;
             }
         }
-        catch { }
         return null;
     }
 
     static public Planet GetPlanet(GameObject gObj)
     {
-        foreach (Planet p in Gravity.planets)
+        if (SystemsInfo.GetSelectedSystem().planets.Count > 0)
         {
-            if (p.Game_obj == gObj)
-                return p;
+            foreach (Planet p in SystemsInfo.GetSelectedSystem().planets)
+            {
+                if (p.Game_obj == gObj)
+                    return p;
+            }
         }
         return null;
     }

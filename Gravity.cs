@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Gravity : MonoBehaviour
 {
     [SerializeField]
-    static public List<Planet> planets = new List<Planet>();
+    //static public List<Planet> planets = new List<Planet>();
     float g;
     Vector3 R;
     float dt = 0.02f;
@@ -15,10 +15,10 @@ public class Gravity : MonoBehaviour
     {
         if (!PlanetsInfo.pause)
         {
-            Planet.number_of_planets = planets.Count;
+            Planet.number_of_planets = SystemsInfo.GetSelectedSystem().planets.Count;
             if (!PlanetsInfo.GetPlanet(gameObject).moused)
             {
-                foreach (Planet planet in planets)
+                foreach (Planet planet in SystemsInfo.GetSelectedSystem().planets)
                 {
                     if (planet.Game_obj != this.gameObject)
                     {
@@ -39,7 +39,7 @@ public class Gravity : MonoBehaviour
     {
         if (!PlanetsInfo.pause && PlanetsInfo.destroy)
         {
-            planets.Remove(PlanetsInfo.GetPlanet(gameObject));
+            SystemsInfo.GetSelectedSystem().planets.Remove(PlanetsInfo.GetPlanet(gameObject));
             Destroy(gameObject);
         }
     }

@@ -22,7 +22,7 @@ public class PlanetMove : MonoBehaviour
         if(!ChangeScreens.v2) init_pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y + transform.position.y, Camera.main.transform.position.y - transform.position.y));
         else init_pos = Camera.main.ScreenToWorldPoint(new Vector3(-Input.mousePosition.x, -Input.mousePosition.y - transform.position.y, Camera.main.transform.position.z - Input.mousePosition.z));
         PlanetsInfo.GetPlanet(this.gameObject).moused = true;
-        foreach(Planet p in Gravity.planets)
+        foreach(Planet p in SystemsInfo.GetSelectedSystem().planets)
         {
             p.selected = false;
         }    
