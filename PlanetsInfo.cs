@@ -43,8 +43,12 @@ public class PlanetsInfo : MonoBehaviour
             options.Add("None");
             planets_list.AddOptions(options);
         }
-        d_folder.SetActive(Follow.isOn);
+        d_folder.SetActive(GetFollowedPlanet() != null && showSpace.isOn);
         add_folder.SetActive(showSpace.isOn);
+        if (GetSelectedPlanet() != null)
+        {
+            params_folder.SetActive(showSpace.isOn);
+        }
     }
 
     void Diselect()
@@ -137,6 +141,18 @@ public class PlanetsInfo : MonoBehaviour
         }
         return null;
     }
+    static public Planet GetMousedPlanet()
+    {
+        if (Systems.planets.Count > 0)
+        {
+            foreach (Planet p in Systems.planets)
+            {
+                if (p.moused)
+                    return p;
+            }
+        }
+        return null;
+    }
 
     static public Planet GetPlanet(GameObject gObj)
     {
@@ -149,6 +165,13 @@ public class PlanetsInfo : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void DeletePlanet()
+    {
+        if (GetSelectedPlanet() == GetFollowedPlanet()) Follow.isOn = false;
+        Destroy(GetSelectedPlanet().Game_obj);
+        Systems.planets.Remove(GetSelectedPlanet());
     }
 
     public void Pause()

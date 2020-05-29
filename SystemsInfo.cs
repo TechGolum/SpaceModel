@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,5 +53,34 @@ public class SystemsInfo : MonoBehaviour
             GetSelectedSystem().selected = false;
             Systems.systems[systems_list.value].selected = true;
         }
+    }
+
+    public void DeleteSystem()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file= File.Open(Application.persistentDataPath + "/" + Systems.systems_file, FileMode.Open);
+        File.Delete(Application.persistentDataPath + "/" + GetSelectedSystem().name + ".save");
+        changed = true;
+        if (Systems.count > 1)
+        {
+
+            Systems.systems.Remove(GetSelectedSystem());
+            Systems.systems[0].selected = true;
+            Systems.count--;
+            bf.Serialize(file, Systems.count);
+            for (int i = 0; i < Systems.count; i++)
+            {
+                bf.Serialize(file, Systems.systems[i].name);
+            }
+        }
+        else
+        {
+            Systems.systems.Remove(GetSelectedSystem());
+            Systems.systems.Add(new Systems("System1"));
+            bf.Serialize(file, 1);
+            bf.Serialize(file, "System1");
+        }
+        systems_list.value = 0;
+        file.Close();
     }
 }

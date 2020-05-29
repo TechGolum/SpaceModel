@@ -60,7 +60,10 @@ public class ChangeScreens : MonoBehaviour
 
     public void Change()
     {
-        if (v2) V1();
-        else V2();
+        if (PlanetsInfo.GetMousedPlanet() == null)
+        {
+            if (v2) V1();
+            else V2();
+        }
     }
 }
