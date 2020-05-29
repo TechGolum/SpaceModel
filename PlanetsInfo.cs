@@ -19,7 +19,7 @@ public class PlanetsInfo : MonoBehaviour
     public GameObject d_folder;
     static public bool diselected = false;
     public Text Pause_Button;
-    static public bool pause;
+    static public bool pause = true;
     public Toggle showSpace;
 
     void Update()
@@ -49,7 +49,8 @@ public class PlanetsInfo : MonoBehaviour
 
     void Diselect()
     {
-        if (planets_list.value > 0 && GetSelectedPlanet() != Systems.planets[planets_list.value - 1])
+        if (planets_list.value > Systems.planets.Count) planets_list.value = 0;
+        if (planets_list.value > 0 && planets_list.value <= Systems.planets.Count && GetSelectedPlanet() != Systems.planets[planets_list.value - 1])
         {
             if (GetSelectedPlanet() != null) GetSelectedPlanet().selected = false;
             Systems.planets[planets_list.value - 1].selected = true;

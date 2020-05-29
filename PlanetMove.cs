@@ -12,7 +12,7 @@ public class PlanetMove : MonoBehaviour
         if (!PlanetsInfo.GetPlanet(gameObject).followed)
         {
             if(!ChangeScreens.v2) mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y + transform.position.y, Camera.main.transform.position.y - transform.position.y);
-            else mousePosition = new Vector3(-Input.mousePosition.x, -Input.mousePosition.y - transform.position.y, Camera.main.transform.position.z + Input.mousePosition.z);
+            else mousePosition = new Vector3(-Input.mousePosition.x, transform.position.z - Input.mousePosition.y, Camera.main.transform.position.z);
             transform.position += Camera.main.ScreenToWorldPoint(mousePosition) - init_pos;
             init_pos = Camera.main.ScreenToWorldPoint(mousePosition);
         }
@@ -20,7 +20,7 @@ public class PlanetMove : MonoBehaviour
     private void OnMouseDown()
     {
         if(!ChangeScreens.v2) init_pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y + transform.position.y, Camera.main.transform.position.y - transform.position.y));
-        else init_pos = Camera.main.ScreenToWorldPoint(new Vector3(-Input.mousePosition.x, -Input.mousePosition.y - transform.position.y, Camera.main.transform.position.z - Input.mousePosition.z));
+        else init_pos = Camera.main.ScreenToWorldPoint(new Vector3(-Input.mousePosition.x, transform.position.z - Input.mousePosition.y, Camera.main.transform.position.z));
         PlanetsInfo.GetPlanet(this.gameObject).moused = true;
         foreach(Planet p in Systems.planets)
         {

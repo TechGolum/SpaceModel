@@ -7,6 +7,8 @@ public class SystemsInfo : MonoBehaviour
 {
     public Text Name, planets_count;
     public Dropdown systems_list;
+    public GameObject System_folder;
+    public Toggle hide_system;
     static public bool changed = false;
     private void Start()
     {
@@ -16,6 +18,7 @@ public class SystemsInfo : MonoBehaviour
     {
         SetParams();
         SetOptions();
+        System_folder.SetActive(hide_system.isOn);
     }
 
     static public Systems GetSelectedSystem()
