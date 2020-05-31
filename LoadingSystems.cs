@@ -32,7 +32,7 @@ public class LoadingSystems : MonoBehaviour
                 g = Instantiate(planet, new Vector3(init_poses[i].x, init_poses[i].y, init_poses[i].z), new Quaternion());
                 Systems.planets.Add(new Planet(masses[i], speeds[i], g, names[i], spins[i], new Vector3(deltas[i].x, deltas[i].y, deltas[i].z)));
             }
-
+            Planet.Count = count + 1;
             Debug.Log("Game Loaded");
         }
         else

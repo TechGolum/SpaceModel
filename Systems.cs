@@ -37,9 +37,9 @@ public class Systems
             count = 1;
             file = File.Create(Application.persistentDataPath + "/" + systems_file);
             bf.Serialize(file, 1);
-            bf.Serialize(file, "System1");
+            bf.Serialize(file, "System");
             file.Close();
-            systems.Add(new Systems("System1"));
+            systems.Add(new Systems("System"));
         }
 
     }

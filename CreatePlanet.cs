@@ -1,5 +1,4 @@
-﻿//using NUnit.Framework.Internal.Execution;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,6 +11,8 @@ public class CreatePlanet : MonoBehaviour
     public InputField input_speed;
     public InputField input_name;
     public InputField input_spin;
+    //public Mesh form;
+    //public Material[] materials;
     public void Add()
     {
         if (PlanetsInfo.GetFollowedPlanet() == null)
@@ -35,6 +36,8 @@ public class CreatePlanet : MonoBehaviour
             input_name.text = input_name.text == "" || input_name.text == "Planet" + (Planet.Count - 1) ? "Planet" + Planet.Count : input_name.text;
             if (nameExists(input_name.text)) input_name.text += "*";
             GameObject g = Instantiate(planet, init_pos, new Quaternion());
+            //g.GetComponent<MeshFilter>().mesh = form;
+            //g.GetComponent<MeshRenderer>().materials = materials;
             Systems.planets.Add(new Planet(int.Parse(input_mass.text), int.Parse(input_speed.text), g, input_name.text, int.Parse(input_spin.text)));
             Systems.planets[Systems.planets.Count - 1].selected = true;
             Camera.main.transform.Translate(Vector3.left * int.Parse(input_mass.text) * 2, Space.Self);

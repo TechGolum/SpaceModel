@@ -16,6 +16,15 @@ public class CreateSystem : MonoBehaviour
 
     public void AddSystem()
     {
+        if (Name.text == "") Name.text = "System";
+        foreach(Systems s in Systems.systems)
+        {
+            if(s.name == Name.text)
+            {
+                Name.text += "_";
+                break;
+            }
+        }
         Systems.systems.Add(new Systems(Name.text));
         Systems.systems[Systems.systems.Count - 1].selected = false;
         bf = new BinaryFormatter();

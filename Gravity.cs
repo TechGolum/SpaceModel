@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Gravity : MonoBehaviour
 {
     [SerializeField]
-    //static public List<Planet> planets = new List<Planet>();
     float g;
     Vector3 R;
     float dt = 0.02f;

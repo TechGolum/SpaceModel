@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+enum Sprite { Alien, Desert, Earth, Frozen, Temperature, Tundra}
 public class Planet
 {
     private string name;
@@ -25,6 +26,8 @@ public class Planet
 
     static public float G = 6.67f;
     static private int count = 1;
+
+    Sprite sprite = Sprite.Alien;
 
     public Planet(float mass, float speed, GameObject game_obj, string name, float spin)
     {
