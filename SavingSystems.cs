@@ -13,6 +13,7 @@ public class SavingSystems : MonoBehaviour
     static List<float> spins;
     static List<SaveVector3> init_poses;
     static List<SaveVector3> deltas;
+    static List<Sprite> types;
     float timer = 0f;
     static void GetAll()
     {
@@ -22,6 +23,7 @@ public class SavingSystems : MonoBehaviour
         spins = new List<float>();
         init_poses = new List<SaveVector3>();
         deltas = new List<SaveVector3>();
+        types = new List<Sprite>();
         foreach (Planet p in Systems.planets)
         {
             names.Add(p.Name);
@@ -30,6 +32,7 @@ public class SavingSystems : MonoBehaviour
             spins.Add(p.Spin);
             init_poses.Add(new SaveVector3(p.Game_obj.transform.position.x, p.Game_obj.transform.position.y, p.Game_obj.transform.position.z));
             deltas.Add(new SaveVector3(p.delta.x, p.delta.y, p.delta.z));
+            types.Add(p.type_planet);
         }
     }
     public void SaveGame()
@@ -46,6 +49,7 @@ public class SavingSystems : MonoBehaviour
         bf.Serialize(file, spins);
         bf.Serialize(file, init_poses);
         bf.Serialize(file, deltas);
+        bf.Serialize(file, types);
         file.Close();
         Debug.Log("Game Saved");
     }

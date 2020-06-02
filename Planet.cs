@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-enum Sprite { Alien, Desert, Earth, Frozen, Temperature, Tundra}
+public enum Sprite { Alien, Desert, Earth, Frozen, Temperature, Tundra}
 public class Planet
 {
     private string name;
@@ -27,9 +27,9 @@ public class Planet
     static public float G = 6.67f;
     static private int count = 1;
 
-    Sprite sprite = Sprite.Alien;
+    public Sprite type_planet;
 
-    public Planet(float mass, float speed, GameObject game_obj, string name, float spin)
+    public Planet(float mass, float speed, GameObject game_obj, string name, float spin, int type)
     {
         Mass = mass;
         Initial_Speed = speed;
@@ -39,9 +39,10 @@ public class Planet
         Game_obj = game_obj;
         Game_obj.GetComponent<Transform>().localScale = setRadius(mass);
         delta = new Vector3();
+        this.type_planet = (Sprite)type;
     }
 
-    public Planet(float mass, float speed, GameObject game_obj, string name, float spin, Vector3 delta)
+    public Planet(float mass, float speed, GameObject game_obj, string name, float spin, Vector3 delta, int type)
     {
         Mass = mass;
         Initial_Speed = speed;
@@ -51,6 +52,7 @@ public class Planet
         Game_obj = game_obj;
         Game_obj.GetComponent<Transform>().localScale = setRadius(mass);
         this.delta = delta;
+        this.type_planet = (Sprite)type;
     }
 
     private Vector3 setRadius(float mass)

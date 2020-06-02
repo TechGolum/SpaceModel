@@ -20,6 +20,7 @@ public class LoadingSystems : MonoBehaviour
             List<float> spins = (List<float>)bf.Deserialize(file);
             List<SaveVector3> init_poses = (List<SaveVector3>)bf.Deserialize(file);
             List<SaveVector3> deltas = (List<SaveVector3>)bf.Deserialize(file);
+            List<Sprite> sprites = (List<Sprite>)bf.Deserialize(file);
             file.Close();
             GameObject g;
             foreach(Planet p in Systems.planets)
@@ -30,7 +31,7 @@ public class LoadingSystems : MonoBehaviour
             for (int i = 0; i < count; i++)
             {
                 g = Instantiate(planet, new Vector3(init_poses[i].x, init_poses[i].y, init_poses[i].z), new Quaternion());
-                Systems.planets.Add(new Planet(masses[i], speeds[i], g, names[i], spins[i], new Vector3(deltas[i].x, deltas[i].y, deltas[i].z)));
+                Systems.planets.Add(new Planet(masses[i], speeds[i], g, names[i], spins[i], new Vector3(deltas[i].x, deltas[i].y, deltas[i].z), (int)sprites[i]));
             }
             Planet.Count = count + 1;
             Debug.Log("Game Loaded");

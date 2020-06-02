@@ -43,7 +43,7 @@ public class PlanetsInfo : MonoBehaviour
             options.Add("None");
             planets_list.AddOptions(options);
         }
-        d_folder.SetActive(GetFollowedPlanet() != null && showSpace.isOn);
+        d_folder.SetActive(GetFollowedPlanet() != null && showSpace.isOn && GetFollowedPlanet() == GetSelectedPlanet());
         add_folder.SetActive(showSpace.isOn);
         if (GetSelectedPlanet() != null)
         {
